@@ -35,6 +35,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       remix({
+        presets: [vercelPreset()],
         future: {
           v3_lazyRouteDiscovery: false,
           v3_relativeSplatPath: false,
@@ -80,28 +81,11 @@ export default defineConfig(({ mode }) => {
           find: "@supabase/node-fetch",
           replacement: resolve("./app/shared/empty.ts"),
         },
-
-        // Redirect isbot to our mock to prevent runtime errors
-        {
-          find: "isbot",
-          replacement: resolve("./app/shared/empty.ts"),
-        },
       ],
     },
     ssr: {
       resolve: {
         conditions: [...conditions, "node", "development|production"],
-        alias: [
-          {
-            find: "~",
-            replacement: resolve("app"),
-          },
-          // Redirect isbot to our mock to prevent runtime errors in SSR
-          {
-            find: "isbot",
-            replacement: resolve("./app/shared/empty.ts"),
-          },
-        ],
       },
     },
     define: {
@@ -113,13 +97,10 @@ export default defineConfig(({ mode }) => {
       // Needed for SSL
       proxy: {},
 
-      https:
-        mode === "development" && existsSync("../../https/privkey.pem")
-          ? {
-              key: readFileSync("../../https/privkey.pem"),
-              cert: readFileSync("../../https/fullchain.pem"),
-            }
-          : undefined,
+      https: {
+        key: readFileSync("../../https/privkey.pem"),
+        cert: readFileSync("../../https/fullchain.pem"),
+      },
       cors: ((
         req: IncomingMessage,
         callback: (error: Error | null, options: CorsOptions | null) => void
