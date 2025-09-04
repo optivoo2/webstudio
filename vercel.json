@@ -1,5 +1,19 @@
 {
   "git": {
-    "deploymentEnabled": false
-  }
+    "deploymentEnabled": true
+  },
+  "buildCommand": "pnpm build",
+  "outputDirectory": "apps/builder/build",
+  "framework": "remix",
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
 }
