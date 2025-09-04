@@ -6,7 +6,9 @@
   "framework": "remix",
   "build": {
     "env": {
-      "ENABLE_VC_BUILD": "1"
+      "ENABLE_VC_BUILD": "1",
+      "NODE_ENV": "production",
+      "VERCEL": "1"
     }
   },
   "git": {
