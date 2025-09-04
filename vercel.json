@@ -4,11 +4,6 @@
   "installCommand": "pnpm install --no-frozen-lockfile --force",
   "outputDirectory": "apps/builder/build",
   "framework": "remix",
-  "functions": {
-    "apps/builder/build/server/**/*.js": {
-      "runtime": "nodejs@18.x"
-    }
-  },
   "build": {
     "env": {
       "ENABLE_VC_BUILD": "1"
