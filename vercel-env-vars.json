@@ -1,0 +1,17 @@
+{
+  "environmentVariables": {
+    "AUTH_SECRET": "NK9EfrTFU9VaccoKM4ay26P3Pu0IZZ2svnBJupxKFpg=",
+    "DEV_LOGIN": "admin@example.com",
+    "DEPLOYMENT_ENVIRONMENT": "production",
+    "GH_CLIENT_ID": "your-github-client-id-here",
+    "GH_CLIENT_SECRET": "your-github-client-secret-here",
+    "POSTGREST_URL": "http://localhost:3000",
+    "POSTGREST_API_KEY": "your-api-key-here",
+    "PUBLISHER_HOST": "wstd.work",
+    "AUTH_WS_CLIENT_ID": "12345",
+    "AUTH_WS_CLIENT_SECRET": "12345678",
+    "ENTRI_APPLICATION_ID": "webstudio",
+    "MAX_UPLOAD_SIZE": "10000000",
+    "MAX_ASSETS_PER_PROJECT": "1000"
+  }
+}

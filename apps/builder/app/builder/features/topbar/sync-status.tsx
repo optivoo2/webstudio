@@ -14,13 +14,16 @@ import { $queueStatus } from "~/builder/shared/sync";
 const $isOnline = atom(false);
 
 const subscribeIsOnline = () => {
-  const handle = () => $isOnline.set(navigator.onLine);
-  addEventListener("offline", handle);
-  addEventListener("online", handle);
-  return () => {
-    removeEventListener("offline", handle);
-    removeEventListener("online", handle);
-  };
+  if (typeof window !== "undefined" && navigator) {
+    const handle = () => $isOnline.set(navigator.onLine);
+    addEventListener("offline", handle);
+    addEventListener("online", handle);
+    return () => {
+      removeEventListener("offline", handle);
+      removeEventListener("online", handle);
+    };
+  }
+  return () => {};
 };
 
 export const SyncStatus = () => {

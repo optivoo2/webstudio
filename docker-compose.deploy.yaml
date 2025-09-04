@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  webstudio-db:
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: webstudio
+      POSTGRES_USER: user
+    volumes:
+      - webstudio_db:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - webstudio-network
+
+  webstudio-app:
+    build: .
+    environment:
+      - DATABASE_URL=postgresql://user:pass@webstudio-db:5432/webstudio
+      - DIRECT_URL=postgresql://user:pass@webstudio-db:5432/webstudio
+      - AUTH_SECRET=your-super-secret-32-char-auth-key-12345
+      - DEV_LOGIN=admin@webstudio.local
+      - DEPLOYMENT_ENVIRONMENT=development
+      - PORT=3000
+      - PRISMA_BINARY_TARGET=["native"]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - webstudio-db
+    networks:
+      - webstudio-network
+
+volumes:
+  webstudio_db:
+
+networks:
+  webstudio-network:
+    driver: bridge

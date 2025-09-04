@@ -1,5 +1,15 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm --filter='@webstudio-is/http-client' build && pnpm --filter='@webstudio-is/builder' build",
+  "installCommand": "pnpm install --no-frozen-lockfile --force",
+  "outputDirectory": "apps/builder/build",
+  "framework": null,
+  "build": {
+    "env": {
+      "ENABLE_VC_BUILD": "1"
+    }
+  },
   "git": {
-    "deploymentEnabled": false
+    "deploymentEnabled": true
   }
 }
