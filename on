@@ -1,0 +1,17 @@
+[1mdiff --git a/apps/builder/vite.config.ts b/apps/builder/vite.config.ts[m
+[1mindex ad2d690a5..851b02a03 100644[m
+[1m--- a/apps/builder/vite.config.ts[m
+[1m+++ b/apps/builder/vite.config.ts[m
+[36m@@ -97,10 +97,10 @@[m [mexport default defineConfig(({ mode }) => {[m
+       // Needed for SSL[m
+       proxy: {},[m
+ [m
+[31m-      https: {[m
+[32m+[m[32m      https: mode === "development" && existsSync("../../https/privkey.pem") ? {[m
+         key: readFileSync("../../https/privkey.pem"),[m
+         cert: readFileSync("../../https/fullchain.pem"),[m
+[31m-      },[m
+[32m+[m[32m      } : undefined,[m
+       cors: (([m
+         req: IncomingMessage,[m
+         callback: (error: Error | null, options: CorsOptions | null) => void[m

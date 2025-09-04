@@ -3,6 +3,7 @@ import {
   cloudflareDevProxyVitePlugin as remixCloudflareDevProxy,
 } from "@remix-run/dev";
 import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig(({ mode }) => ({
   plugins: [
@@ -20,6 +21,13 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     conditions: ["browser", "development|production"],
+    alias: [
+      // Redirect isbot to our mock to prevent runtime errors in Vercel
+      {
+        find: "isbot",
+        replacement: resolve("./app/shared/isbot-mock.ts"),
+      },
+    ],
   },
   ssr: {
     resolve: {

@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  webstudio-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webstudio-coolify-app
+    environment:
+      - DATABASE_URL=postgresql://webstudio_user:webstudio_secure_2024@webstudio-postgres:5432/webstudio
+      - DIRECT_URL=postgresql://webstudio_user:webstudio_secure_2024@webstudio-postgres:5432/webstudio
+      - AUTH_SECRET=webstudio-super-secret-auth-key-2024-coolify-production
+      - DEV_LOGIN=admin@webstudio.local
+      - DEPLOYMENT_ENVIRONMENT=production
+      - DEPLOYMENT_URL=https://webstudio-coolify.optivoo.com
+      - PORT=3000
+      - PRISMA_BINARY_TARGET=["native"]
+      - NODE_ENV=production
+      - FEATURES=""
+      - USER_PLAN=""
+    volumes:
+      - webstudio-app-data:/app/data
+    networks:
+      - webstudio-coolify-net
+    restart: unless-stopped
+    depends_on:
+      - webstudio-postgres
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=webstudio-coolify-net"
+      - "traefik.http.routers.webstudio-coolify.rule=Host('webstudio-coolify.optivoo.com')"
+      - "traefik.http.routers.webstudio-coolify.entrypoints=websecure"
+      - "traefik.http.routers.webstudio-coolify.tls.certresolver=letsencrypt"
+      - "traefik.http.services.webstudio-coolify.loadbalancer.server.port=3000"
+
+  webstudio-postgres:
+    image: postgres:16-alpine
+    container_name: webstudio-postgres
+    environment:
+      - POSTGRES_DB=webstudio
+      - POSTGRES_USER=webstudio_user
+      - POSTGRES_PASSWORD=webstudio_secure_2024
+    volumes:
+      - webstudio-postgres-data:/var/lib/postgresql/data
+    networks:
+      - webstudio-coolify-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U webstudio_user -d webstudio"]
+      interval: 5s
+      timeout: 20s
+      retries: 10
+
+volumes:
+  webstudio-app-data:
+  webstudio-postgres-data:
+
+networks:
+  webstudio-coolify-net:
+    external: true

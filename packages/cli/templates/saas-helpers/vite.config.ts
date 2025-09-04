@@ -26,6 +26,13 @@ const conditions = hasPrivateFolders
 export default defineConfig(({ mode }) => ({
   resolve: {
     conditions: [...conditions, "browser", "development|production"],
+    alias: [
+      // Redirect isbot to our mock to prevent runtime errors in Vercel
+      {
+        find: "isbot",
+        replacement: path.resolve("./isbot-mock.ts"),
+      },
+    ],
   },
   ssr: {
     resolve: {

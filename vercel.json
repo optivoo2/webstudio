@@ -8,7 +8,9 @@
     "env": {
       "ENABLE_VC_BUILD": "1",
       "NODE_ENV": "production",
-      "VERCEL": "1"
+      "VERCEL": "1",
+      "NODE_OPTIONS": "--max-old-space-size=6144",
+      "SKIP_GLOBAL_ASSIGN_CHECK": "1"
     }
   },
   "git": {

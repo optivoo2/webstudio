@@ -1,0 +1,60 @@
+services:
+  webstudio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      - SERVICE_URL_WEBSTUDIO_3000
+      - DATABASE_URL=postgresql://$SERVICE_USER_POSTGRES:$SERVICE_PASSWORD_POSTGRES@postgresql:5432/${POSTGRES_DB:-webstudio}
+      - DIRECT_URL=postgresql://$SERVICE_USER_POSTGRES:$SERVICE_PASSWORD_POSTGRES@postgresql:5432/${POSTGRES_DB:-webstudio}
+      - AUTH_SECRET=$SERVICE_PASSWORD_64_AUTH
+      - DEV_LOGIN=admin@webstudio.local
+      - DEPLOYMENT_ENVIRONMENT=production
+      - PORT=3000
+      - PRISMA_BINARY_TARGET=["native"]
+      - NODE_ENV=production
+      - FEATURES=""
+      - USER_PLAN=""
+    volumes:
+      - webstudio-data:/app/data
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - '--quiet'
+        - '--spider'
+        - 'http://localhost:3000'
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: >
+      sh -c "
+        cd packages/prisma-client &&
+        PRISMA_BINARY_TARGET='[\"native\"]' pnpm exec prisma generate &&
+        PRISMA_BINARY_TARGET='[\"native\"]' pnpm exec prisma db push &&
+        cd /app &&
+        pnpm --filter='@webstudio-is/builder' start
+      "
+
+  postgresql:
+    image: 'postgres:16-alpine'
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=$SERVICE_USER_POSTGRES
+      - POSTGRES_PASSWORD=$SERVICE_PASSWORD_POSTGRES
+      - POSTGRES_DB=${POSTGRES_DB:-webstudio}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'
+      interval: 5s
+      timeout: 20s
+      retries: 10
+
+volumes:
+  webstudio-data:
+  postgresql-data:
