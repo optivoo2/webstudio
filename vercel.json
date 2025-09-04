@@ -8,8 +8,7 @@
     "env": {
       "ENABLE_VC_BUILD": "1",
       "NODE_ENV": "production",
-      "VERCEL": "1",
-      "NODE_OPTIONS": "--no-global-assign"
+      "VERCEL": "1"
     }
   },
   "git": {
