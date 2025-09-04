@@ -96,6 +96,11 @@ export default defineConfig(({ mode }) => {
             find: "~",
             replacement: resolve("app"),
           },
+          // Redirect isbot to our mock to prevent runtime errors in SSR
+          {
+            find: "isbot",
+            replacement: resolve("./app/shared/empty.ts"),
+          },
         ],
       },
     },
