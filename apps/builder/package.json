@@ -48,6 +48,7 @@
     "@radix-ui/react-tooltip": "^1.2.4",
     "@react-aria/interactions": "^3.23.0",
     "@react-aria/utils": "^3.27.0",
+    "@remix-run/dev": "^2.16.5",
     "@remix-run/node": "^2.16.5",
     "@remix-run/react": "^2.16.5",
     "@remix-run/serve": "^2.16.5",
@@ -126,7 +127,6 @@
     "zod-validation-error": "^3.4.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.16.5",
     "@types/debug": "^4.1.12",
     "@types/dom-navigation": "^1.0.5",
     "@types/react": "^18.2.70",
