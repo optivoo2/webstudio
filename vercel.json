@@ -6,7 +6,7 @@
   "framework": "remix",
   "functions": {
     "apps/builder/build/server/**/*.js": {
-      "runtime": "nodejs"
+      "runtime": "nodejs@18.x"
     }
   },
   "build": {
