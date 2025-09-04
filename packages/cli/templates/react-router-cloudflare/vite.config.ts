@@ -18,6 +18,13 @@ export default defineConfig({
   ssr: {
     resolve: {
       conditions: ["node", "development|production"],
+      alias: [
+        // Redirect isbot to our mock to prevent runtime errors in SSR
+        {
+          find: "isbot",
+          replacement: resolve("./app/shared/isbot-mock.ts"),
+        },
+      ],
     },
   },
 });
