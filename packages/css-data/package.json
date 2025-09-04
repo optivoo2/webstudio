@@ -27,7 +27,9 @@
     "zod": "^3.19.1"
   },
   "exports": {
-    "webstudio": "./src/index.ts"
+    "webstudio": "./src/index.ts",
+    ".": "./src/index.ts",
+    "import": "./src/index.ts"
   },
   "license": "AGPL-3.0-or-later",
   "private": true,
