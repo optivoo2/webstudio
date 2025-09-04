@@ -30,12 +30,4 @@ if (typeof module !== "undefined" && module.exports) {
 export { isbot };
 export default isbot;
 
-// Additional safety: Handle global assignments with proper checks
-if (typeof globalThis !== "undefined" && globalThis !== null) {
-  try {
-    (globalThis as any).isbot = isbot;
-  } catch (error) {
-    // Silently fail if we can't set the global property
-    console.warn("Could not set global isbot property:", error);
-  }
-}
+// Note: Removed global assignment to prevent runtime errors in Vercel
