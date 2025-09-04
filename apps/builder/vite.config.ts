@@ -80,6 +80,12 @@ export default defineConfig(({ mode }) => {
           find: "@supabase/node-fetch",
           replacement: resolve("./app/shared/empty.ts"),
         },
+
+        // Redirect isbot to our mock to prevent runtime errors
+        {
+          find: "isbot",
+          replacement: resolve("./app/shared/empty.ts"),
+        },
       ],
     },
     ssr: {
